@@ -15,6 +15,7 @@ class MyObject : public Nan::ObjectWrap {
   static void GetValue(const Nan::FunctionCallbackInfo<v8::Value>& info);
   static void PlusOne(const Nan::FunctionCallbackInfo<v8::Value>& info);
   static void Multiply(const Nan::FunctionCallbackInfo<v8::Value>& info);
+  static void Another(const Nan::FunctionCallbackInfo<v8::Value>& info);
   static Nan::Persistent<v8::Function> constructor;
   double value_;
 };

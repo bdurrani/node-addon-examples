@@ -1,4 +1,5 @@
 #include "myobject.h"
+#include "one.h"
 
 Nan::Persistent<v8::Function> MyObject::constructor;
 
@@ -19,6 +20,7 @@ void MyObject::Init(v8::Local<v8::Object> exports) {
   Nan::SetPrototypeMethod(tpl, "value", GetValue);
   Nan::SetPrototypeMethod(tpl, "plusOne", PlusOne);
   Nan::SetPrototypeMethod(tpl, "multiply", Multiply);
+  Nan::SetPrototypeMethod(tpl, "another", Another);
 
   constructor.Reset(tpl->GetFunction(context).ToLocalChecked());
   exports->Set(Nan::New("MyObject").ToLocalChecked(),
@@ -53,6 +55,15 @@ void MyObject::PlusOne(const Nan::FunctionCallbackInfo<v8::Value>& info) {
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(info.Holder());
   obj->value_ += 1;
   info.GetReturnValue().Set(Nan::New(obj->value_));
+}
+
+void MyObject::Another(const Nan::FunctionCallbackInfo<v8::Value>& info) {
+  printf("entered another\n");
+  auto obj = new ::Primitive(5.0);
+  auto value = One::NewInstance(obj);
+  printf("got a new instance\n");
+  info.GetReturnValue().Set(value);
+  // info.GetReturnValue().Set(Nan::New(5.0));
 }
 
 void MyObject::Multiply(const Nan::FunctionCallbackInfo<v8::Value>& info) {
